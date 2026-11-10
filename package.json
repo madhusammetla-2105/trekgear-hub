@@ -1,0 +1,21 @@
+{
+  "name": "trekgear-hub",
+  "version": "1.0.0",
+  "description": "TrekGear Hub - Trekking Equipment Rental Management System",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "node src/database/seed.js",
+    "test": "echo \"Postman testing only - no automated test runner configured\" && exit 0"
+  },
+  "keywords": ["trekking", "rental", "equipment", "express", "sqlite"],
+  "author": "NU-AIML2E-G06",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {}
+}

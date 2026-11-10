@@ -1,0 +1,318 @@
+{
+  "info": {
+    "name": "TrekGear Hub API Testing",
+    "description": "Postman collection for TrekGear Hub - Trekking Equipment Rental Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "trekgear-hub"
+  },
+  "item": [
+    {
+      "name": "Trekker APIs",
+      "item": [
+        {
+          "name": "Create Trekker",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/trekkers", "host": ["{{baseUrl}}"], "path": ["trekkers"]},
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Rahul Sharma\",\n  \"email\": \"rahul@example.com\",\n  \"phone\": \"9876543210\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 201\", () => {", "  pm.expect(pm.response.code).to.equal(201);", "});"]}}]
+        },
+        {
+          "name": "Get All Trekkers",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/trekkers", "host": ["{{baseUrl}}"], "path": ["trekkers"]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Get Trekker by ID",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/trekkers/1", "host": ["{{baseUrl}}"], "path": ["trekkers", "1"]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Update Trekker",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/trekkers/1", "host": ["{{baseUrl}}"], "path": ["trekkers", "1"]},
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Rahul Sharma Updated\",\n  \"email\": \"rahul.updated@example.com\",\n  \"phone\": \"9876543210\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Delete Trekker (should fail - has rental history)",
+          "request": {"method": "DELETE", "url": {"raw": "{{baseUrl}}/trekkers/1", "host": ["{{baseUrl}}"], "path": ["trekkers", "1"]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 409\", () => {", "  pm.expect(pm.response.code).to.equal(409);", "});"]}}]
+        }
+      ]
+    },
+    {
+      "name": "Tent APIs",
+      "item": [
+        {
+          "name": "Create Tent - 2-person",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/tents", "host": ["{{baseUrl}}"], "path": ["tents"]},
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Forest Explorer\",\n  \"size\": \"2-person\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 201\", () => {", "  pm.expect(pm.response.code).to.equal(201);", "});"]}}]
+        },
+        {
+          "name": "Create Tent - 4-person",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/tents", "host": ["{{baseUrl}}"], "path": ["tents"]},
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Alpine Pro\",\n  \"size\": \"4-person\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 201\", () => {", "  pm.expect(pm.response.code).to.equal(201);", "});"]}}]
+        },
+        {
+          "name": "Create Tent - 6-person",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/tents", "host": ["{{baseUrl}}"], "path": ["tents"]},
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Summit Master\",\n  \"size\": \"6-person\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 201\", () => {", "  pm.expect(pm.response.code).to.equal(201);", "});"]}}]
+        },
+        {
+          "name": "Create Tent - Invalid Size (Other)",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/tents", "host": ["{{baseUrl}}"], "path": ["tents"]},
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Forest Explorer\",\n  \"size\": \"Other\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 400\", () => {", "  pm.expect(pm.response.code).to.equal(400);", "});", "pm.test(\"Error contains allowed values\", () => {", "  const res = pm.response.json();", "  pm.expect(res.allowedValues).to.deep.equal([\"2-person\", \"4-person\", \"6-person\"]);", "});"]}}]
+        },
+        {
+          "name": "Get All Tents",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/tents", "host": ["{{baseUrl}}"], "path": ["tents"]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Get Tent by ID",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/tents/1", "host": ["{{baseUrl}}"], "path": ["tents", "1"]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Update Tent - Valid Size (4-person)",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/tents/1", "host": ["{{baseUrl}}"], "path": ["tents", "1"]},
+            "body": {"mode": "raw", "raw": "{\n  \"size\": \"4-person\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Update Tent - Invalid Size",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/tents/1", "host": ["{{baseUrl}}"], "path": ["tents", "1"]},
+            "body": {"mode": "raw", "raw": "{\n  \"size\": \"8-person\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 400\", () => {", "  pm.expect(pm.response.code).to.equal(400);", "});"]}}]
+        },
+        {
+          "name": "Delete Tent (should fail - has rental history)",
+          "request": {"method": "DELETE", "url": {"raw": "{{baseUrl}}/tents/1", "host": ["{{baseUrl}}"], "path": ["tents", "1"]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 409\", () => {", "  pm.expect(pm.response.code).to.equal(409);", "});"]}}]
+        }
+      ]
+    },
+    {
+      "name": "Rental APIs",
+      "item": [
+        {
+          "name": "Create Valid Rental",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/rentals", "host": ["{{baseUrl}}"], "path": ["rentals"]},
+            "body": {"mode": "raw", "raw": "{\n  \"trekker_id\": 1,\n  \"tent_id\": 1\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 201\", () => {", "  pm.expect(pm.response.code).to.equal(201);", "});"]}}]
+        },
+        {
+          "name": "Rent Already Rented Tent (Double Rental)",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/rentals", "host": ["{{baseUrl}}"], "path": ["rentals"]},
+            "body": {"mode": "raw", "raw": "{\n  \"trekker_id\": 2,\n  \"tent_id\": 1\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 409\", () => {", "  pm.expect(pm.response.code).to.equal(409);", "});"]}}]
+        },
+        {
+          "name": "Rent Damaged Tent",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/rentals", "host": ["{{baseUrl}}"], "path": ["rentals"]},
+            "body": {"mode": "raw", "raw": "{\n  \"trekker_id\": 2,\n  \"tent_id\": 3\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 409\", () => {", "  pm.expect(pm.response.code).to.equal(409);", "});"]}}]
+        },
+        {
+          "name": "Rent with Nonexistent Trekker",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/rentals", "host": ["{{baseUrl}}"], "path": ["rentals"]},
+            "body": {"mode": "raw", "raw": "{\n  \"trekker_id\": 999,\n  \"tent_id\": 2\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 404\", () => {", "  pm.expect(pm.response.code).to.equal(404);", "});"]}}]
+        },
+        {
+          "name": "Rent with Nonexistent Tent",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/rentals", "host": ["{{baseUrl}}"], "path": ["rentals"]},
+            "body": {"mode": "raw", "raw": "{\n  \"trekker_id\": 1,\n  \"tent_id\": 999\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 404\", () => {", "  pm.expect(pm.response.code).to.equal(404);", "});"]}}]
+        },
+        {
+          "name": "Get All Rentals",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/rentals", "host": ["{{baseUrl}}"], "path": ["rentals"]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Get Rental by ID",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/rentals/1", "host": ["{{baseUrl}}"], "path": ["rentals", "1"]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Return a Tent",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/rentals/1", "host": ["{{baseUrl}}"], "path": ["rentals", "1"]},
+            "body": {"mode": "raw", "raw": "{\n  \"status\": \"returned\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Cancel a Rental",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/rentals/2", "host": ["{{baseUrl}}"], "path": ["rentals", "2"]},
+            "body": {"mode": "raw", "raw": "{\n  \"status\": \"cancelled\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Delete Cancelled Rental",
+          "request": {"method": "DELETE", "url": {"raw": "{{baseUrl}}/rentals/2", "host": ["{{baseUrl}}"], "path": ["rentals", "2"]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        }
+      ]
+    },
+    {
+      "name": "Rental JOIN API",
+      "item": [
+        {
+          "name": "Get Rental Details (JOIN)",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/rentals/details", "host": ["{{baseUrl}}"], "path": ["rentals", "details"]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});", "pm.test(\"Response has trekker_name and tent_name\", () => {", "  const res = pm.response.json();", "  pm.expect(res.rentals[0]).to.have.property('trekker_name');", "  pm.expect(res.rentals[0]).to.have.property('tent_name');", "  pm.expect(res.rentals[0]).to.have.property('tent_size');", "});"]}}]
+        }
+      ]
+    },
+    {
+      "name": "Validation Tests",
+      "item": [
+        {
+          "name": "Create Trekker - Missing Name",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/trekkers", "host": ["{{baseUrl}}"], "path": ["trekkers"]},
+            "body": {"mode": "raw", "raw": "{\n  \"email\": \"test@example.com\",\n  \"phone\": \"9876543210\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 400\", () => {", "  pm.expect(pm.response.code).to.equal(400);", "});"]}}]
+        },
+        {
+          "name": "Create Trekker - Invalid Email",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/trekkers", "host": ["{{baseUrl}}"], "path": ["trekkers"]},
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Test\",\n  \"email\": \"invalid-email\",\n  \"phone\": \"9876543210\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 400\", () => {", "  pm.expect(pm.response.code).to.equal(400);", "});"]}}]
+        },
+        {
+          "name": "Create Trekker - Duplicate Email",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/trekkers", "host": ["{{baseUrl}}"], "path": ["trekkers"]},
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Another Rahul\",\n  \"email\": \"rahul@example.com\",\n  \"phone\": \"9876543210\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 409\", () => {", "  pm.expect(pm.response.code).to.equal(409);", "});"]}}]
+        },
+        {
+          "name": "Create Tent - Missing Size",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/tents", "host": ["{{baseUrl}}"], "path": ["tents"]},
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Test Tent\"\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 400\", () => {", "  pm.expect(pm.response.code).to.equal(400);", "});"]}}]
+        },
+        {
+          "name": "Create Rental - Missing Fields",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/rentals", "host": ["{{baseUrl}}"], "path": ["rentals"]},
+            "body": {"mode": "raw", "raw": "{\n  \"trekker_id\": 1\n}"}
+          },
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 400\", () => {", "  pm.expect(pm.response.code).to.equal(400);", "});"]}}]
+        }
+      ]
+    },
+    {
+      "name": "Search Tests",
+      "item": [
+        {
+          "name": "Search Tents by Size - 2-person",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/tents/search?size=2-person", "host": ["{{baseUrl}}"], "path": ["tents", "search"], "query": [{"key": "size", "value": "2-person"}]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Search Tents by Size - 4-person",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/tents/search?size=4-person", "host": ["{{baseUrl}}"], "path": ["tents", "search"], "query": [{"key": "size", "value": "4-person"}]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Search Tents by Size - 6-person",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/tents/search?size=6-person", "host": ["{{baseUrl}}"], "path": ["tents", "search"], "query": [{"key": "size", "value": "6-person"}]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 200\", () => {", "  pm.expect(pm.response.code).to.equal(200);", "});"]}}]
+        },
+        {
+          "name": "Search Tents - Invalid Size",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/tents/search?size=8-person", "host": ["{{baseUrl}}"], "path": ["tents", "search"], "query": [{"key": "size", "value": "8-person"}]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 400\", () => {", "  pm.expect(pm.response.code).to.equal(400);", "});"]}}]
+        },
+        {
+          "name": "Search Tents - Missing Size Parameter",
+          "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/tents/search", "host": ["{{baseUrl}}"], "path": ["tents", "search"]}},
+          "event": [{"listen": "test", "script": {"exec": ["pm.test(\"Status is 400\", () => {", "  pm.expect(pm.response.code).to.equal(400);", "});"]}}]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {"key": "baseUrl", "value": "http://localhost:3000/api"}
+  ]
+}
